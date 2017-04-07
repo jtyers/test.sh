@@ -9,6 +9,8 @@ Enter `test.sh`.
 
 Importantly, `test.sh` only supports testing shell *functions* right now, since that is how I structure more complex shell scripts. But let's use a simple example to show you what `test.sh` can do.
 
+**NOTE** `test.sh` is new and not very well tested. Use it but expect it to go wrong on you occasionally.
+
 ## Example
 Suppose I have a function, `create_file()`, which performs a mount, creates a file, calls `sync`, and unmounts.
 
