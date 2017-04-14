@@ -1,5 +1,5 @@
 # test.sh
-Frustrated when your well-tested app is let down by much-harder-to-test scripts doing non-app tasks? Can't unit test your scripts because they're fiddling with things that existing unit test frameworks can't handle?
+Frustrated when your well-tested app is let down by much-harder-to-test scripts doing non-app tasks? Can't unit test your scripts because they're fiddling with things that existing unit test frameworks can't mock/stub out?
 
 If your script calls binaries like `sudo` or `mount`, or changes files in special places like `/proc` or `/sys`, how do you create a reliable test harness without resorting to using a chroot, VM or container?
 
@@ -7,7 +7,7 @@ Enter `test.sh`.
 
 `test.sh` is a POSIX-compliant shell script unit test and mocking framework. It lets you mock *anything* - any command or shell built-in. It tracks which mocked-out commands are called and the parameters passed so you can assert on those later.
 
-Importantly, `test.sh` only supports testing shell *functions* right now, since that is how I structure more complex shell scripts. But let's use a simple example to show you what `test.sh` can do.
+Importantly, `test.sh` only supports testing shell *functions* right now, since that is how I structure my more complex shell scripts. But let's use a simple example to show you what `test.sh` can do.
 
 **NOTE** `test.sh` is new and not very well tested. Use it but expect it to go wrong on you occasionally.
 
