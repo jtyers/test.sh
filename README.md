@@ -37,7 +37,11 @@ Now to unit test it. (Aside: I like to structure my tests in a BDD-like *given*,
 ```bash
 #!/usr/bin/env test.sh
 
-shouldMountAndCreateFiles() {
+setup() {
+	source ./create_file.sh
+}
+
+testMountAndCreateFiles() {
 	# given
 	dummy_device="/tmp/test-sh-dummy-device"
 	dummy_mountpoint="/tmp/test-sh-mp"
@@ -66,6 +70,10 @@ shouldMountAndCreateFiles() {
 
 So, what's going on here?
 
+We start with the `setup()` function, which is executed once before each test is run. You can do any setup you want here that applies to all tests. The minimum you need to do is *source your test file*. `test.sh` has no way of knowing the script you intend to test; thus you must source it here so that you can call its functions from your tests.
+
+Following `setup()` are your test functions. In the example above all my test functions begin with `test...`, but you can change this.
+
 First (in my *given* section), I set up a few pieces of test data and create the directories my script will expect. I then call `mock_cmd` for commands I want to mock; `mock_cmd` will create a shell function which does nothing, and name it after the command. The effect of this is that when my script calls `mount`, the mock function gets called and not the real `mount`. You can also pass simple statements to instruct the mock to do something; e.g. `mock_cmd mount echo mounted!`. `mock_cmd` will also automatically start tracking any calls that are made to the commands you've mocked, which we assert further on in the test.
 
 In my *when* section I call the code I want to test, passing in my test data.
@@ -73,6 +81,15 @@ In my *when* section I call the code I want to test, passing in my test data.
 The *then* section is where I do my asserts. The asserts are nice and self-documenting where possible.
 * `assert_file_content` does exactly that, allowing you to specify a string that `test.sh` looks for (it has to be an *exact* match; this method of asserting is best for small one-line files, such as files in `/proc`, PID files and so on).
 * `assert_called` checks out mock to see if it was called with the arguments you specify. Notice how I passed in some fancy options to `mount`, and assert on those in the same line?
+
+## Running your tests
+`test.sh` can be run in one of two ways.
+
+- Hashbang: use `#!/usr/bin/env test.sh` or `#!/path/to/test.sh` in the first line of your script
+- Directly: run `/path/to/test.sh mytestfile`
+
+## Change the name of your tests
+By default `test.sh` looks for functions beginning with the word `test`. Change this using `test.sh -p <prefix> mytestfile`. e.g. `test.sh -p should mytestfile` will look for all functions in `mytestfile` beginning with the string `should` and execute them all.
 
 ## Testing order of calls
 `assert_called` by default checks the *most recent* call to a command. You might have a command called several times that you want to assert on. For example, a script that, given a read-only file system, mounts it `rw`, writes a file and remounts `ro`:
@@ -98,7 +115,7 @@ And the unit test:
 ```bash
 #!/usr/bin/env test.sh
 
-shouldRemountWriteAndRemountAgain() {
+testRemountWriteAndRemountAgain() {
 	# given
 	dummy_mountpoint="/tmp/test-sh-mp"
 	dummy_fname="foobar"

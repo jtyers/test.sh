@@ -25,6 +25,10 @@
 
 set -eu
 
+test_result=0
+testsPassed=0
+testFuncPrefix="test"
+
 die() {
 	echo "$@" >&2
 	export test_result=1
@@ -181,10 +185,8 @@ assert_called_n() {
 parameters (expected: $margs, actual: $call_args)"
 }
 
-test_result=0
-
 begin_testing() {
-	declare -F | egrep '^declare -f should' | while read f; do
+	declare -F | egrep "^declare -f $testFuncPrefix" | while read f; do
 		local actual_name=${f:11}
 
 		echo "running test $actual_name"
@@ -206,10 +208,25 @@ begin_testing() {
 
 		teardown
 		echo ""
+
+		testsPassed=$(($testsPassed+1))
 	done
+
+	# doesn't work as tests are run in a subshell (aka while loop)
+	# and thus $testsPassed does not get passed back up to parent shell
+	#echo ""
+	#echo "test run complete; ran $testsPassed tests"
 }
 
-[ $# -ge 1 ] || die "usage: test.sh <test files>"
+[ $# -ge 1 ] || die "usage: test.sh -p <testFuncPrefix> <test files>"
+
+if [ "$1" == "-p" ]; then
+	shift
+	testFuncPrefix="$1"
+	shift
+fi
+
+[ $# -ge 1 ] || die "usage: test.sh -p <testFuncPrefix> <test files>"
 
 for i; do
 	source $i
