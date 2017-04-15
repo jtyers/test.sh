@@ -9,6 +9,8 @@ Enter `test.sh`.
 
 Importantly, `test.sh` only supports testing shell *functions* right now, since that is how I structure my more complex shell scripts. But let's use a simple example to show you what `test.sh` can do.
 
+`test.sh` requires [jq](https://github.com/stedolan/jq) and a POSIX compliant shell to run.
+
 **NOTE** `test.sh` is new. I use it in my own business. That said, use it but expect it to go wrong on you occasionally. Pull requests and reporting of issues very welcome.
 
 ## Example
