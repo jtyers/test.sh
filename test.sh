@@ -107,6 +107,18 @@ retrieve_mock_call() {
 	#set +x
 }
 
+# assert two string arguments are equal
+# usage: assert_equal <expected> <actual>
+assert_equal() {
+	[ "$1" == "$2" ] || die "assert_equal: expected $1, actual $2"
+}
+
+# assert a variable is blank
+# usage: assert_blank <value>
+assert_blank() {
+	[ -n "$1" ] || die "assert_blank: expected to be blank, actual $1"
+}
+
 # mainly used for single-line files (e.g. in /proc or /sys)
 # usage: assert_file_content <file> <content>
 assert_file_content() {
