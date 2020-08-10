@@ -146,6 +146,8 @@ In this example, instead of `assert_called` we use `assert_called_n`, aka "asser
 
 ## Other asserts
 I've added asserts as I've use `test.sh` on my own projects. So far there is:
+* `assert_equal` - assert that the two arguments are equal
+* `assert_blank` - assert that the argument is blank
 * `assert_called`, `assert_called_n` - assert calls to mock commands created via `mock_cmd`
 * `assert_file_content <file> <string>` - assert that `file` contains content `string`
 * `assert_dir <path>` - check a path exists and is a directory
