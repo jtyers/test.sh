@@ -201,7 +201,7 @@ begin_testing() {
 	declare -F | egrep "^declare -f $testFuncPrefix" | while read f; do
 		local actual_name=${f:11}
 
-		echo "running test $actual_name"
+		printf "running test %s\n" "$actual_name"
 		setup
 
 		eval $actual_name
@@ -219,7 +219,8 @@ begin_testing() {
 		done
 
 		teardown
-		echo ""
+		
+    printf "  ...passed\n"
 
 		testsPassed=$(($testsPassed+1))
 	done
