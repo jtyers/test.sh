@@ -5,14 +5,15 @@ If your script calls binaries like `sudo` or `mount`, or changes files in specia
 
 Enter `test.sh`.
 
-`test.sh` is a POSIX-compliant shell script unit test and mocking framework. It lets you mock *anything* - any command or shell built-in. It tracks which mocked-out commands are called and the parameters passed so you can assert on those later.
+`test.sh` is a shell script unit test and mocking framework. It lets you mock *anything* - any command or shell built-in. It tracks which mocked-out commands are called and the parameters passed so you can assert on those later.
 
 Importantly, `test.sh` only supports testing shell *functions* right now, since that is how I structure my more complex shell scripts. But let's use a simple example to show you what `test.sh` can do.
 
 **NOTE** `test.sh` is new. I use it in my own business. That said, use it but expect it to go wrong on you occasionally. Pull requests and reporting of issues very welcome.
 
 ## Requirements
-`test.sh` requires [jq](https://github.com/stedolan/jq) and a POSIX compliant shell to run. It does not require `bash` and should run in any POSIX compliant shell environment. If it doesn't then that's a bug.
+
+`test.sh` requires [jq](https://github.com/stedolan/jq) and `bash` to run.
 
 ## Example
 Suppose I have a function, `create_file()`, which performs a mount, creates a file, calls `sync`, and unmounts.

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # 
 # MIT License
 # 
@@ -42,14 +42,14 @@ mock_cmd() {
 
 	# https//stackoverflow.com/a/31969136
 	if [ $# -eq 0 ]; then
-		. /dev/stdin <<EOF
+		source /dev/stdin <<EOF
 function ${cmd_name}() {
 	register_mock_call ${cmd_name} "\$@"
 	true
 }
 EOF
 	else
-		. /dev/stdin <<EOF
+		source /dev/stdin <<EOF
 function ${cmd_name}() {
 	register_mock_call ${cmd_name} "\$@"
 	$@
@@ -229,7 +229,7 @@ fi
 [ $# -ge 1 ] || die "usage: test.sh -p <testFuncPrefix> <test files>"
 
 for i; do
-	. $i
+	source $i
 done
 
 begin_testing
